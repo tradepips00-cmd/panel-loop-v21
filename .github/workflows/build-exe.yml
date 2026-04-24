@@ -1,0 +1,29 @@
+name: Build Panel Loop v2.1 Auto Affinity EXE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller
+
+      - name: Build EXE
+        run: python -m PyInstaller --onefile --windowed --name PanelLoopAutoAffinity Panel_Loop_v21_AutoAffinity.py
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PanelLoopAutoAffinity-Windows-EXE
+          path: dist/PanelLoopAutoAffinity.exe
